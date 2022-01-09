@@ -1,14 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Meteo from './components/Test';
+import HomeView from './views/HomeView';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Projet Météo React Native</Text>
-      <Meteo/>
-      <StatusBar style="auto" />
-    </View>
+    <HomeView/>
   );
 }
 
