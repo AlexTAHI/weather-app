@@ -42,7 +42,7 @@ export default class Meteo extends React.Component {
                     </div>
 
                     <p>Ville : {this.state.ville}</p>
-                    <p>Temp : {this.state.temp} C</p>
+                    <p>Temp : {this.state.temp} °C</p>
                 </>
             );
         } else {
