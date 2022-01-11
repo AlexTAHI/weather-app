@@ -36,7 +36,7 @@ export default class HomeView extends React.Component {
 
                 <View style={styles.body}>
                     <View style={styles.worldMapBox}>
-                        <Image style={styles.worldMap} source={require('../assets/img/png/world-map.png')}/>
+                        <Image style={styles.worldMap} source={require('../assets/img/png/world-map-update.png')}/>
                         <View style={styles.insideWorldMap}>
                             <Image style={styles.weatherIcon} source={require('../assets/img/weather/cloudy.png')}/>
                             <Text style={styles.tempTime}>Cloudy</Text>
@@ -144,8 +144,9 @@ const styles = StyleSheet.create({
     worldMap: {
         position: 'absolute',
         width: '100%',
-        height: 200,
-        resizeMode: 'cover',
+        height: 300,
+        resizeMode: 'contain',
+        tintColor: '#333',
     },
     insideWorldMap: {
         width: '100%',
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
         fontFamily: 'SplineSans-SemiBold',
         color: 'white',
         fontSize: 100,
+        backgroundColor: 'transparent',
     },
     celsius: {
         fontFamily: 'SplineSans',
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
         fontSize: 100,
     },
     weatherDatas: {
-        backgroundColor: '#80808299',
+        backgroundColor: '#333',
         width: '100%',
         height: 200,
         borderRadius: 25,
