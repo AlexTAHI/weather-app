@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import loadFonts from "../assets/fonts/font";
 
 export default class HomeView extends React.Component {
@@ -10,7 +10,7 @@ export default class HomeView extends React.Component {
     };
     // Appel avant le montage du composant
     componentDidMount() {
-        //loadFonts();
+        loadFonts();
     }
     // Rendu du composant
     render() {
@@ -36,7 +36,7 @@ export default class HomeView extends React.Component {
 
                 <View style={styles.body}>
                     <View style={styles.worldMapBox}>
-                        <Image style={styles.worldMap} /*blurRadius={5}*/ source={require('../assets/img/png/world-map.png')}/>
+                        <Image style={styles.worldMap} source={require('../assets/img/png/world-map.png')}/>
                         <View style={styles.insideWorldMap}>
                             <Image style={styles.weatherIcon} source={require('../assets/img/weather/cloudy.png')}/>
                             <Text style={styles.tempTime}>Cloudy</Text>
@@ -48,10 +48,35 @@ export default class HomeView extends React.Component {
                     </View>
 
                     <View style={styles.weatherDatas} blurRadius={9}>
-                        
+                        <View style={styles.weatherDatasChild} blurRadius={9}>
+                            <View style={styles.weatherDatasChildPart}>
+                                <Text style={styles.weatherDatasChildTitle}>Précipitation</Text>
+                                <Text style={styles.weatherDatasChildValue}>30%</Text>
+                            </View>
+
+                            <View style={styles.weatherDatasChildPart}>
+                                <Text style={styles.weatherDatasChildTitle}>Humidité</Text>
+                                <Text style={styles.weatherDatasChildValue}>27%</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.weatherDatasSeparator}>
+
+                        </View>
+
+                        <View style={styles.weatherDatasChild}>
+                            <View style={styles.weatherDatasChildPart}>
+                                <Text style={styles.weatherDatasChildTitle}>Vent</Text>
+                                <Text style={styles.weatherDatasChildValue}>8 Km/h</Text>
+                            </View>
+
+                            <View style={styles.weatherDatasChildPart}>
+                                <Text style={styles.weatherDatasChildTitle}>Pression</Text>
+                                <Text style={styles.weatherDatasChildValue}>840 hPa</Text>
+                            </View>
+                        </View>
                     </View>
                 </View>
-
 
 
             </View>
@@ -143,17 +168,51 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     temperature: {
+        fontFamily: 'SplineSans-SemiBold',
         color: 'white',
         fontSize: 100,
     },
     celsius: {
+        fontFamily: 'SplineSans',
         color: '#f9d65d',
-        fontSize: 80,
+        fontSize: 100,
     },
     weatherDatas: {
         backgroundColor: '#80808299',
         width: '100%',
         height: 200,
         borderRadius: 25,
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
+    weatherDatasChild: {
+        //backgroundColor: '#80808299',
+        width: '47%',
+        height: '100%',
+        borderRadius: 25,
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    weatherDatasChildPart: {
+        alignItems: 'center',
+    },
+    weatherDatasChildTitle: {
+        color: '#aaa',
+        fontFamily: 'Poppins',
+        fontSize: 18,
+    },
+    weatherDatasChildValue: {
+        color: 'white',
+        fontFamily: 'Poppins',
+        fontSize: 18,
+    },
+    weatherDatasSeparator: {
+        backgroundColor: 'white',
+        width: 2.5,
+        height: '90%',
+        borderRadius: 25,
+    }
 });

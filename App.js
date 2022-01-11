@@ -1,17 +1,19 @@
 import { StyleSheet, Text, View } from 'react-native';
 import HomeView from './views/HomeView';
+import BottomNavigationBar from "./components/BottomNavigationBar";
 
 export default function App() {
   return (
-    <HomeView/>
+    <View style={styles.container}>
+      <BottomNavigationBar />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#333',
     justifyContent: 'center',
   },
 });

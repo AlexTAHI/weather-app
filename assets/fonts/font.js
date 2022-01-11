@@ -21,6 +21,11 @@ export default async function loadFonts() {
             'Poppins-Bold': require('./Poppins/Poppins-Bold.ttf'),
             'Poppins-ExtraBold': require('./Poppins/Poppins-ExtraBold.ttf'),
             'Poppins-Black': require('./Poppins/Poppins-Black.ttf'),
+            // Spline Sans
+            'SplineSans': require('./SplineSans/SplineSans-Regular.ttf'),
+            'SplineSans-SemiBold': require('./SplineSans/SplineSans-SemiBold.ttf'),
+            'SplineSans-Bold': require('./SplineSans/SplineSans-Bold.ttf'),
+            'SplineSans': require('./SplineSans/SplineSans-Regular.ttf'),
         }
     // Résultat après chargement des polices
     ).then(() => { // En cas de succès...
@@ -32,4 +37,4 @@ export default async function loadFonts() {
     });
 }
 // Lancer le chargement des polices
-loadFonts();
+//loadFonts();
