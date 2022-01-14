@@ -2,15 +2,46 @@ import React from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import loadFonts from "../assets/fonts/font";
+import axios from 'axios';
+import { API_LINK, API_KEY } from '../constants';
+import WeatherIcon from '../components/WeatherIcon';
 
 export default class HomeView extends React.Component {
     // Etat du composant
     state = {
-        fontsLoaded: false,
+        city: 'Yamoussoukro',
+        country: 'CI',
+        temp: 0,
+        time: '',
+        humidity: 0,
+        wind: 0,
+        pressure: 0,
+        visibility: 0,
+        weatherIcon: null,
     };
     // Appel avant le montage du composant
     componentDidMount() {
         loadFonts();
+        this.getWeather();
+    }
+    // Obtenir la météo d'une ville
+    getWeather() {
+        axios.get(API_LINK + 'q=' + this.state.city + '&appid=' + API_KEY + '&units=metric&lang=FR')
+            .then(response => {
+                console.log(response.data.main.temp);
+                this.setState({
+                    temp: Math.round(response.data.main.temp),
+                    time: response.data.weather[0].description,
+                    humidity: response.data.main.humidity,
+                    pressure: response.data.main.pressure,
+                    wind: response.data.wind.speed,
+                    visibility: Math.round(response.data.visibility / 1000),
+                    weatherIcon: <WeatherIcon name={response.data.weather[0].description} style={styles.weatherIcon} />,
+                });
+            })
+            .catch(error => {
+                console.error("Cette ville n'existe pas");
+            });
     }
     // Rendu du composant
     render() {
@@ -25,8 +56,8 @@ export default class HomeView extends React.Component {
                         <View style={styles.cityInfos}>
                             <Image style={styles.cityIcon} source={require('../assets/img/flat-icons/pin.png')} />
                             <Text style={styles.cityName}>
-                                Yamoussoukro,
-                                <Text style={styles.countryName}> Côte d'Ivoire</Text>
+                                {this.state.city},
+                                <Text style={styles.countryName}> {this.state.country}</Text>
                             </Text>
                         </View>
                     </View>
@@ -38,10 +69,14 @@ export default class HomeView extends React.Component {
                     <View style={styles.worldMapBox}>
                         <Image style={styles.worldMap} source={require('../assets/img/png/world-map-update.png')}/>
                         <View style={styles.insideWorldMap}>
-                            <Image style={styles.weatherIcon} source={require('../assets/img/weather/cloudy.png')}/>
-                            <Text style={styles.tempTime}>Cloudy</Text>
+                            {
+                                this.state.weatherIcon
+                                //<Image style={styles.weatherIcon} source={require('../assets/img/weather/sun.png')} />
+                            }
+
+                            <Text style={styles.tempTime}>{this.state.time}</Text>
                             <View style={styles.tempBox}>
-                                <Text style={styles.temperature}>13</Text>
+                                <Text style={styles.temperature}>{this.state.temp}</Text>
                                 <Text style={styles.celsius}>°</Text>
                             </View>
                         </View>
@@ -50,13 +85,13 @@ export default class HomeView extends React.Component {
                     <View style={styles.weatherDatas} blurRadius={9}>
                         <View style={styles.weatherDatasChild} blurRadius={9}>
                             <View style={styles.weatherDatasChildPart}>
-                                <Text style={styles.weatherDatasChildTitle}>Précipitation</Text>
-                                <Text style={styles.weatherDatasChildValue}>30%</Text>
+                                <Text style={styles.weatherDatasChildTitle}>Visibilité</Text>
+                                <Text style={styles.weatherDatasChildValue}>{this.state.visibility} Km</Text>
                             </View>
 
                             <View style={styles.weatherDatasChildPart}>
                                 <Text style={styles.weatherDatasChildTitle}>Humidité</Text>
-                                <Text style={styles.weatherDatasChildValue}>27%</Text>
+                                <Text style={styles.weatherDatasChildValue}>{this.state.humidity}%</Text>
                             </View>
                         </View>
 
@@ -67,12 +102,12 @@ export default class HomeView extends React.Component {
                         <View style={styles.weatherDatasChild}>
                             <View style={styles.weatherDatasChildPart}>
                                 <Text style={styles.weatherDatasChildTitle}>Vent</Text>
-                                <Text style={styles.weatherDatasChildValue}>8 Km/h</Text>
+                                <Text style={styles.weatherDatasChildValue}>{this.state.wind} m/s</Text>
                             </View>
 
                             <View style={styles.weatherDatasChildPart}>
                                 <Text style={styles.weatherDatasChildTitle}>Pression</Text>
-                                <Text style={styles.weatherDatasChildValue}>840 hPa</Text>
+                                <Text style={styles.weatherDatasChildValue}>{this.state.pressure} hPa</Text>
                             </View>
                         </View>
                     </View>
@@ -167,6 +202,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Bold',
         fontSize: 25,
         marginTop: 15,
+        textTransform: 'capitalize',
     },
     temperature: {
         fontFamily: 'SplineSans-SemiBold',

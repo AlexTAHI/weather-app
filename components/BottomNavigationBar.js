@@ -47,7 +47,6 @@ export default class BottomNavigationBar extends React.Component {
                     <Tab.Screen name='Accueil' component={HomeView}/>
                     <Tab.Screen name='Villes' component={CityView}/>
                     <Tab.Screen name='Favoris' component={HomeView}/>
-                    <Tab.Screen name='Options' component={HomeView}/>
                 </Tab.Navigator>
             </NavigationContainer>
         );
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
     tabBar: {
         position: 'absolute',
         bottom: 15,
-        backgroundColor: 'transparent',
+        backgroundColor: '#101014',
         borderTopColor: 'transparent',
         shadowColor: 'transparent',
     },
