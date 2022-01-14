@@ -4,17 +4,48 @@ import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox } from 'rea
 import SearchBar from "react-native-platform-searchbar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import loadFonts from "../assets/fonts/font";
-//const cityList = require('../components/city.list.json');
+const cityList = require('../components/cities.json');
+
 export default class CityView extends React.Component {
     // Etat du composant
     state = {
         fontsLoaded: false,
         cities: [],
+
     };
+    // Obtenir la météo d'une ville
+    getWeather() {
+        axios.get(API_LINK + 'q=' + this.state.city + '&appid=' + API_KEY + '&units=metric&lang=FR')
+            .then(response => {
+                console.log(response.data.main.temp);
+                this.setState({
+                    temp: Math.round(response.data.main.temp),
+                    time: response.data.weather[0].description,
+                    humidity: response.data.main.humidity,
+                    pressure: response.data.main.pressure,
+                    wind: response.data.wind.speed,
+                    visibility: Math.round(response.data.visibility / 1000),
+                    weatherIcon: <WeatherIcon name={response.data.weather[0].description} style={styles.weatherIcon} />,
+                });
+            })
+            .catch(error => {
+                console.error("Cette ville n'existe pas");
+            });
+    }
     // Appel avant le montage du composant
     componentDidMount() {
         loadFonts();
-        //this.state.cities = cityList.slice(0, 20);
+        this.setState({ cities: cityList });
+        /*
+        for (let i = 0; i < 13; i++) {
+            this.state.cities.push(
+                {
+                    'name': 'Paris',
+                    'temperature': 13,
+                    'time': 'Thunder'
+                },
+            );
+        }*/
         LogBox.ignoreLogs(["VirtualizedLists should never be nested"]); // Désactiver l'avertissement du ScrollView
     }
     // Rendu du composant
@@ -40,31 +71,35 @@ export default class CityView extends React.Component {
                             <Image style={styles.worldMap} source={require('../assets/img/png/world-map-update.png')}/>
                             <View style={styles.insideWorldMapBox}>
 
-                            <ScrollView contentContainerStyle={styles.contentContainer}>
-                                <FlatList
-                                    //contentContainerStyle={styles.contentContainer}
-                                    data={this.state.cities}
-                                    numColumns={2}
-                                    keyExtractor={(item, index) => index.toString()}
-                                    columnWrapperStyle={{ justifyContent: 'space-between' }}
-                                    renderItem={({ item }) => (
-                                        <View style={styles.cityBox}>
-                                            <Text style={styles.cityName}>{item.name}</Text>
+                                <ScrollView contentContainerStyle={styles.contentContainer}>
+                                    <FlatList
+                                        //contentContainerStyle={styles.contentContainer}
+                                        data={this.state.cities}
+                                        numColumns={2}
+                                        keyExtractor={(item, index) => index.toString()}
+                                        columnWrapperStyle={{ justifyContent: 'space-between' }}
+                                        ListHeaderComponent={
+                                                <Text style={styles.historicTitle}>Historique des recherches</Text>
+                                            }
+                                        renderItem={({ item, index }) => (
+                                                    <View style={styles.cityBox}>
+                                                        <Text style={styles.cityName}>{item.name}</Text>
 
-                                            <Image style={styles.weatherIcon} source={require('../assets/img/weather/thunder.png')}/>
+                                                        <Image style={styles.weatherIcon} source={require('../assets/img/weather/thunder.png')} />
 
-                                            <View style={styles.tempTime}>
-                                                <View style={styles.tempBox}>
-                                                    <Text style={styles.temperature}>{ item.temperature }</Text>
-                                                    <Text style={styles.celsius}>°</Text>
-                                                </View>
-                                                <Text style={styles.time}>{ item.time }</Text>
-                                            </View>
+                                                        <View style={styles.tempTime}>
+                                                            <View style={styles.tempBox}>
+                                                                <Text style={styles.temperature}>{item.temperature}</Text>
+                                                                <Text style={styles.celsius}>°</Text>
+                                                            </View>
+                                                            <Text style={styles.time}>{item.time}</Text>
+                                                        </View>
 
-                                        </View>
-                                    )}
-                                />
-                            </ScrollView>
+                                                    </View>
+                                                )
+                                            }
+                                    />
+                                </ScrollView>
 
                             </View>
                         </View>
@@ -112,6 +147,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins',
         fontSize: 18,
         alignItems: 'center',
+    },
+    historicTitle: {
+        color: 'white',
+        fontFamily: 'Poppins',
+        fontSize: 20,
+        marginBottom: 5,
+        textAlign: 'center',
     },
     body: {
         flex: 3,

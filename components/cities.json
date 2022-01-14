@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Abidjan",
+        "temperature": 18,
+        "time": "Cloudy"
+    },
+    {
+        "name": "Man",
+        "temperature": 18,
+        "time": "Cloudy"
+    },
+    {
+        "name": "Bouaké",
+        "temperature": 18,
+        "time": "Cloudy"
+    },
+    {
+        "name": "Paris",
+        "temperature": 18,
+        "time": "Cloudy"
+    }
+]
