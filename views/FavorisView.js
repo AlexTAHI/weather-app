@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox } from 'react-native';
+import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox, SafeAreaView } from 'react-native';
 import SearchBar from "react-native-platform-searchbar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import loadFonts from "../assets/fonts/font";
@@ -10,7 +10,7 @@ import { API_KEY, API_LINK } from "../constants";
 import axios from 'axios';
 import WeatherIcon from "../components/WeatherIcon";
 
-export default class CityView extends React.Component {
+export default class FavorisView extends React.Component {
     // Etat du composant
     state = {
         fontsLoaded: false,
@@ -21,6 +21,11 @@ export default class CityView extends React.Component {
             {'city': 'Yamoussoukro'},
             {'city': 'Bouaké'},
             {'city': 'Grand-Bassam'},
+            {'city': 'Paris'},
+            {'city': 'Man'},
+            {'city': 'Rennes'},
+            {'city': 'Londres'},
+            {'city': 'Bruxelles'},
         ],
     };
     // Obtenir la météo d'une ville
@@ -100,70 +105,15 @@ export default class CityView extends React.Component {
     render() {
         // Affichage de la vue
         return (
-            <View style={styles.view}>
+            <SafeAreaView style={styles.view}>
                 <StatusBar style='light'/>
+                {
+                /*
                 <View style={styles.header}>
-                    <Text style={styles.searchText}> Rechercher une ville</Text>
-                    <GeoDBCitiesSearch
-                        languageCode='fr'
-                        debounce={200}
-                        hidePoweredBy
-                        showActivityIndicator
-                        placeholder="Rechercher les villes"
-                        placeholderColor="red"
-                        onSelectItem={(data) => {
-                            console.log(data.city);
-                            /*this.props.navigation.navigate('Accueil', {
-                                CityName: data.city,
-                                CountryName: data.country,
-                              })*/
-                        }}
-                        styles={{
-                            textInputContainer: {
-                                width: 350,
-                                borderRadius: 15,
-                                height: 60,
-                                backgroundColor: '#3d3d3d',
-                                borderRadius: 25,
-                                color: 'white',
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                alignItems: 'center',
-                            },
-                            contentContainer: {
-                                //borderRadius: 25,
-                                backgroundColor: '#101014',
-                            },
-                            separator: {
-                                alignItems: 'center',
-                            },
-                            itemContent: {
-                                color: 'white',
-                            },
-                            itemText: {
-                                color: 'white',
-                            },
-                            textInput: {
-                                backgroundColor: 'transparent',
-                                width: '100%',
-                                fontSize: 16,
-                                color: 'white',
-                            },
-                        }}
-
-                        //emptyListImagePlaceholder={require('../../../assets/emptyList.png')}
-                        query={{
-                        // key: GEODB_API_KEY,
-                            api: 'geo',
-                            types: 'cities'
-                        }}
-                        params={{
-                            language: 'en',
-                            limit: 10,
-                            offset: 0
-                        }}
-                    />
+                    <Text style={styles.searchText}> Favoris</Text>
                 </View>
+                */
+                }
 
                 {
                     <View style={styles.body}>
@@ -175,7 +125,6 @@ export default class CityView extends React.Component {
                                 <ScrollView contentContainerStyle={styles.contentContainer}>
                                     <FlatList
                                         //contentContainerStyle={styles.contentContainer}
-                                        focusable={false}
                                         data={this.state.favCities}
                                         numColumns={2}
                                         keyExtractor={(item, index) => index.toString()}
@@ -209,7 +158,7 @@ export default class CityView extends React.Component {
                 }
 
 
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -258,6 +207,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     body: {
+        marginTop: 30,
         flex: 1,
         width: '100%',
         height: '100%',

@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeView from '../views/HomeView';
 import CityView from '../views/CityView';
+import FavorisView from "../views/FavorisView";
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +47,7 @@ export default class BottomNavigationBar extends React.Component {
                 >
                     <Tab.Screen name='Accueil' component={HomeView}/>
                     <Tab.Screen name='Villes' component={CityView}/>
-                    <Tab.Screen name='Favoris' component={HomeView}/>
+                    <Tab.Screen name='Favoris' component={FavorisView}/>
                 </Tab.Navigator>
             </NavigationContainer>
         );

@@ -29,10 +29,10 @@ export default async function loadFonts() {
         }
     // Résultat après chargement des polices
     ).then(() => { // En cas de succès...
-        console.log('Chargement des polices terminé !');
+        //console.log('Chargement des polices terminé !');
         return true;
     }).catch(() => { // En cas d'échec...
-        console.error('Echec de chargement des polices');
+        //console.error('Echec de chargement des polices');
         return false;
     });
 }

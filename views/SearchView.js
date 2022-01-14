@@ -6,11 +6,11 @@ import axios from 'axios';
 import { API_LINK, API_KEY } from '../constants';
 import WeatherIcon from '../components/WeatherIcon';
 
-export default class HomeView extends React.Component {
+export default class SearchView extends React.Component {
     // Etat du composant
     state = {
-        city: 'Yamoussoukro',
-        country: 'CI',
+        city: '',
+        country: '',
         temp: 0,
         time: '',
         humidity: 0,
@@ -28,9 +28,8 @@ export default class HomeView extends React.Component {
     getWeather() {
         axios.get(API_LINK + 'q=' + this.state.city + '&appid=' + API_KEY + '&units=metric&lang=FR')
             .then(response => {
-                //console.log(response.data.main.temp);
+                console.log(response.data.main.temp);
                 this.setState({
-                    country: response.data.sys.country,
                     temp: Math.round(response.data.main.temp),
                     time: response.data.weather[0].description,
                     humidity: response.data.main.humidity,
@@ -80,11 +79,6 @@ export default class HomeView extends React.Component {
                                 <Text style={styles.temperature}>{this.state.temp}</Text>
                                 <Text style={styles.celsius}>°</Text>
                             </View>
-                        </View>
-                    </View>
-
-                    <View style={styles.previsionDatas}>
-                        <View style={styles.previsionDatasChild}>
                         </View>
                     </View>
 
@@ -220,16 +214,6 @@ const styles = StyleSheet.create({
         fontFamily: 'SplineSans',
         color: '#f9d65d',
         fontSize: 100,
-    },
-    previsionDatas: {
-        width: 50,
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: 'red',
-    },
-    previsionDatas: {
-        justifyContent: 'space-around',
     },
     weatherDatas: {
         backgroundColor: '#333',
