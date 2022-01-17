@@ -5,6 +5,9 @@ import loadFonts from "../assets/fonts/font";
 import axios from 'axios';
 import { API_LINK, API_KEY } from '../constants';
 import WeatherIcon from '../components/WeatherIcon';
+import { connect } from 'react-redux';
+import { changeFavoris } from '../actions/favoris';
+import { bindActionCreators } from 'redux';
 
 export default class HomeView extends React.Component {
     // Etat du composant

@@ -1,0 +1,1 @@
+export const FAVORIS_CHANGE = 'FAVORIS_CHANGE';

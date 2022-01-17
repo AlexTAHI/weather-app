@@ -6,11 +6,13 @@ import GeoDBCitiesSearch from 'react-native-geodb';
 import { API_KEY, API_LINK } from "../constants";
 import axios from 'axios';
 import WeatherIcon from "../components/WeatherIcon";
+import { connect } from 'react-redux';
+import { changeFavoris } from '../actions/favoris';
+import { bindActionCreators } from 'redux';
 
 export default class CityView extends React.Component {
     // Etat du composant
     state = {
-        fontsLoaded: false,
         researchResult: {},
         favCities: [
             {'city': 'Abidjan'},
@@ -180,8 +182,8 @@ export default class CityView extends React.Component {
                                             <Text style={styles.historicTitle}>Villes courantes</Text>
                                         }
                                         renderItem={({ item, index }) => (
-                                                <View style={styles.cityBox}>
                                                 <TouchableOpacity
+                                                    style={styles.cityBox}
                                                     onPress={() => {
                                                         console.log(item.city);
                                                         this.props.navigation.navigate("FicheVille", {
@@ -203,7 +205,6 @@ export default class CityView extends React.Component {
                                                     </View>
 
                                             </TouchableOpacity>
-                                                </View>
                                         )
                                         }
                                     />

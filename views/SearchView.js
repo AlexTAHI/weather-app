@@ -6,8 +6,11 @@ import loadFonts from "../assets/fonts/font";
 import axios from 'axios';
 import { API_LINK, API_KEY } from '../constants';
 import WeatherIcon from '../components/WeatherIcon';
+import { connect } from 'react-redux';
+import { changeFavoris } from '../actions/favoris';
+import { bindActionCreators } from 'redux';
 
-export default class SearchView extends React.Component {
+class SearchView extends React.Component {
     // Etat du composant
     state = {
         city: '',
@@ -19,6 +22,8 @@ export default class SearchView extends React.Component {
         pressure: 0,
         visibility: 0,
         weatherIcon: null,
+        favoris: false,
+        favIcon: 'heart-outline',
     };
     // Appel avant le montage du composant
     componentDidMount() {
@@ -48,8 +53,23 @@ export default class SearchView extends React.Component {
                 console.error("Cette ville n'existe pas");
             });
     }
+    // Ajouter une ville aux favoris
+    addToFavoris() {
+        let { favoris, actions } = this.props;
+        favoris.state = true;
+        favoris.icon = 'heart';
+        actions.changeFavoris(favoris);
+    }
+    // Retirer une ville des favoris
+    removeFromFavoris() {
+        let { favoris, actions } = this.props;
+        favoris.state = false;
+        favoris.icon = 'heart-outline';
+        actions.changeFavoris(favoris);
+    }
     // Rendu du composant
     render() {
+        const { favoris } = this.props;
         const now = new Date(); // Date d'aujourd'hui
         // Affichage de la vue
         return (
@@ -59,9 +79,10 @@ export default class SearchView extends React.Component {
                     <TouchableOpacity
                         style={styles.backBtn}
                         onPress={() => {
-                        this.props.navigation.navigate("ListeVille");
-                    }}>
-                        <Ionicons name="arrow-back-circle-outline" size={35} color='white'></Ionicons>
+                            this.props.navigation.navigate("ListeVille");
+                        }
+                    }>
+                        <Ionicons name="arrow-back-circle" size={35} color='white'></Ionicons>
                     </TouchableOpacity>
                     <View style={styles.headerItems}>
                         <Text style={styles.headerText}>{now.toDateString()}</Text>
@@ -74,6 +95,19 @@ export default class SearchView extends React.Component {
                         </View>
                     </View>
                     <View style={styles.headerItems}>
+                        <TouchableOpacity
+                            style={styles.backBtn}
+                            onPress={() => {
+                                if (favoris) {
+                                    this.removeFromFavoris();
+                                } else {
+                                    this.addToFavoris();
+                                }
+                                console.log('favoris: ' + favoris.state);
+                            }
+                        }>
+                            <Ionicons name={favoris.icon} size={20} color='white'></Ionicons>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
@@ -270,3 +304,18 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     }
 });
+
+const mapStateToProps = state => ({
+  favoris: state.favoris,
+});
+
+const ActionCreators = Object.assign(
+  {},
+  changeFavoris,
+);
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchView);

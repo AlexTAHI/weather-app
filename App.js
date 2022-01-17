@@ -1,7 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import BottomNavigationBar from "./components/BottomNavigationBar";
-//import MyStack from './components/navigation';
+import { connect } from 'react-redux';
+import { changeFavoris } from './actions/favoris';
+import { bindActionCreators } from 'redux';
 
 export default function App() {
   return (

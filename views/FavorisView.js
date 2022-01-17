@@ -1,10 +1,13 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox, SafeAreaView } from 'react-native';
 import loadFonts from "../assets/fonts/font";
 import { API_KEY, API_LINK } from "../constants";
 import axios from 'axios';
 import WeatherIcon from "../components/WeatherIcon";
+import { connect } from 'react-redux';
+import { changeFavoris } from '../actions/favoris';
+import { bindActionCreators } from 'redux';
 
 export default class FavorisView extends React.Component {
     // Etat du composant
@@ -126,10 +129,19 @@ export default class FavorisView extends React.Component {
                                         keyExtractor={(item, index) => index.toString()}
                                         columnWrapperStyle={{ justifyContent: 'space-between' }}
                                         ListHeaderComponent={
-                                            <Text style={styles.historicTitle}>Villes courantes</Text>
+                                            <Text style={styles.historicTitle}>Villes favorites</Text>
                                         }
                                         renderItem={({ item, index }) => (
-                                            <View style={styles.cityBox}>
+                                            <TouchableOpacity
+                                                    style={styles.cityBox}
+                                                    onPress={() => {
+                                                        console.log(item.city);
+                                                        this.props.navigation.navigate("FicheVille", {
+                                                            cityName: item.city,
+                                                            countryName: item.country,
+                                                        });
+                                                    }}
+                                                >
                                                 <Text style={styles.cityName}>{item.city}</Text>
 
                                                 <WeatherIcon name={item.time} style={styles.weatherIcon}/>
@@ -142,7 +154,7 @@ export default class FavorisView extends React.Component {
                                                     <Text style={styles.time}>{item.time}</Text>
                                                 </View>
 
-                                            </View>
+                                            </TouchableOpacity>
                                         )
                                         }
                                     />
