@@ -1,11 +1,8 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox } from 'react-native';
-import SearchBar from "react-native-platform-searchbar";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity, StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox } from 'react-native';
 import loadFonts from "../assets/fonts/font";
 import GeoDBCitiesSearch from 'react-native-geodb';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { API_KEY, API_LINK } from "../constants";
 import axios from 'axios';
 import WeatherIcon from "../components/WeatherIcon";
@@ -14,7 +11,6 @@ export default class CityView extends React.Component {
     // Etat du composant
     state = {
         fontsLoaded: false,
-        researchCity: '',
         researchResult: {},
         favCities: [
             {'city': 'Abidjan'},
@@ -59,6 +55,7 @@ export default class CityView extends React.Component {
                 .then(response => {
                     return {
                         'city': this.state.favCities[i].city,
+                        'country': response.data.sys.country,
                         'temp': Math.round(response.data.main.temp),
                         'time': response.data.weather[0].description,
                     };
@@ -110,13 +107,13 @@ export default class CityView extends React.Component {
                         hidePoweredBy
                         showActivityIndicator
                         placeholder="Rechercher les villes"
-                        placeholderColor="red"
+                        placeholderColor="#333"
                         onSelectItem={(data) => {
                             console.log(data.city);
-                            /*this.props.navigation.navigate('Accueil', {
-                                CityName: data.city,
-                                CountryName: data.country,
-                              })*/
+                            this.props.navigation.navigate("FicheVille", {
+                                cityName: data.city,
+                                countryName: data.country,
+                            });
                         }}
                         styles={{
                             textInputContainer: {
@@ -150,7 +147,6 @@ export default class CityView extends React.Component {
                                 color: 'white',
                             },
                         }}
-
                         //emptyListImagePlaceholder={require('../../../assets/emptyList.png')}
                         query={{
                         // key: GEODB_API_KEY,
@@ -184,20 +180,30 @@ export default class CityView extends React.Component {
                                             <Text style={styles.historicTitle}>Villes courantes</Text>
                                         }
                                         renderItem={({ item, index }) => (
-                                            <View style={styles.cityBox}>
-                                                <Text style={styles.cityName}>{item.city}</Text>
+                                                <View style={styles.cityBox}>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        console.log(item.city);
+                                                        this.props.navigation.navigate("FicheVille", {
+                                                            cityName: item.city,
+                                                            countryName: item.country,
+                                                        });
+                                                    }}
+                                                >
+                                                    <Text style={styles.cityName}>{item.city}</Text>
 
-                                                <WeatherIcon name={item.time} style={styles.weatherIcon}/>
+                                                    <WeatherIcon name={item.time} style={styles.weatherIcon}/>
 
-                                                <View style={styles.tempTime}>
-                                                    <View style={styles.tempBox}>
-                                                        <Text style={styles.temperature}>{item.temp}</Text>
-                                                        <Text style={styles.celsius}>°</Text>
+                                                    <View style={styles.tempTime}>
+                                                        <View style={styles.tempBox}>
+                                                            <Text style={styles.temperature}>{item.temp}</Text>
+                                                            <Text style={styles.celsius}>°</Text>
+                                                        </View>
+                                                        <Text style={styles.time}>{item.time}</Text>
                                                     </View>
-                                                    <Text style={styles.time}>{item.time}</Text>
-                                                </View>
 
-                                            </View>
+                                            </TouchableOpacity>
+                                                </View>
                                         )
                                         }
                                     />

@@ -1,6 +1,7 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import loadFonts from "../assets/fonts/font";
 import axios from 'axios';
 import { API_LINK, API_KEY } from '../constants';
@@ -22,6 +23,10 @@ export default class SearchView extends React.Component {
     // Appel avant le montage du composant
     componentDidMount() {
         loadFonts();
+        if (typeof(this.props.route.params) != 'undefined') {
+            this.state.city = this.props.route.params.cityName;
+            this.state.country = this.props.route.params.countryName;
+        }
         this.getWeather();
     }
     // Obtenir la météo d'une ville
@@ -51,6 +56,13 @@ export default class SearchView extends React.Component {
             <View style={styles.view}>
                 <StatusBar style='light'/>
                 <View style={styles.header}>
+                    <TouchableOpacity
+                        style={styles.backBtn}
+                        onPress={() => {
+                        this.props.navigation.navigate("ListeVille");
+                    }}>
+                        <Ionicons name="arrow-back-circle-outline" size={35} color='white'></Ionicons>
+                    </TouchableOpacity>
                     <View style={styles.headerItems}>
                         <Text style={styles.headerText}>{now.toDateString()}</Text>
                         <View style={styles.cityInfos}>
@@ -129,10 +141,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
     },
+    backBtn: {
+        marginRight: 15,
+    },
     header: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         width: '100%',
         height: 100,
         //backgroundColor: '#3d3d3d',

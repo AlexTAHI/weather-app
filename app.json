@@ -20,10 +20,12 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/img/weather/half-cloudy-moon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.ghostxx.weatherapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

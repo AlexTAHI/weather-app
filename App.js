@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
-import HomeView from './views/HomeView';
+import { StyleSheet, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import BottomNavigationBar from "./components/BottomNavigationBar";
+//import MyStack from './components/navigation';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <BottomNavigationBar />
+      <NavigationContainer>
+        <BottomNavigationBar />
+      </NavigationContainer>
     </View>
   );
 }

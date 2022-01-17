@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeView from '../views/HomeView';
-import CityView from '../views/CityView';
+import CityStack from './CityStack';
 import FavorisView from "../views/FavorisView";
 
 const Tab = createBottomTabNavigator();
@@ -12,7 +11,6 @@ const Tab = createBottomTabNavigator();
 export default class BottomNavigationBar extends React.Component {
     render() {
         return (
-            <NavigationContainer>
                 <Tab.Navigator
                     screenOptions={({ route }) => ({
                     tabBarStyle: styles.tabBar,
@@ -46,10 +44,9 @@ export default class BottomNavigationBar extends React.Component {
                     })}
                 >
                     <Tab.Screen name='Accueil' component={HomeView}/>
-                    <Tab.Screen name='Villes' component={CityView}/>
+                    <Tab.Screen name='Villes' component={CityStack}/>
                     <Tab.Screen name='Favoris' component={FavorisView}/>
                 </Tab.Navigator>
-            </NavigationContainer>
         );
     }
 }

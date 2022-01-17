@@ -1,11 +1,7 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, FlatList, View, Image, ScrollView, LogBox, SafeAreaView } from 'react-native';
-import SearchBar from "react-native-platform-searchbar";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import loadFonts from "../assets/fonts/font";
-import GeoDBCitiesSearch from 'react-native-geodb';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { API_KEY, API_LINK } from "../constants";
 import axios from 'axios';
 import WeatherIcon from "../components/WeatherIcon";
